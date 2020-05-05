@@ -1,0 +1,46 @@
+stages:
+  - build
+  - deploy
+  - cleanup
+
+build_job:
+  stage: build
+  script:
+    - dotnet publish api.csproj -c Release -o helpet-api
+    - tar -cjvf helpet-api.tar.bz2 helpet-api
+  artifacts:
+    expire_in: 30 day
+    paths:
+      -  ./*.tar.bz2
+  only:
+    - master
+  tags:
+    - helpetweb
+
+deploy_job:
+  stage: deploy
+  script:
+    - sudo systemctl stop helpet-api
+    - sudo rm -rf /opt/apps/helpet-api
+    - sudo tar -xvf helpet-api.tar.bz2 -C /opt/apps/
+    - sudo chown -R root:root /opt/apps/helpet-api 
+    - sudo systemctl start helpet-api
+  when: on_success
+  environment:
+    name: Production
+    url: https://api.helpetgroup.net
+  only:
+    - master
+  tags:
+    - helpetweb
+
+cleanup_job:
+  stage: cleanup
+  script:
+    - dotnet clean
+    - sudo killall "/usr/share/dotnet/dotnet"
+  when: always
+  only:
+    - master
+  tags:
+    - helpetweb
