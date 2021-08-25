@@ -17,7 +17,7 @@
     <PackageReference Include="MongoDB.Driver" Version="2.9.3" />
     <PackageReference Include="GoogleApi" Version="3.9.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.18" />
     <PackageReference Include="AWSSDK.S3" Version="3.3.109" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
